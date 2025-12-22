@@ -1,0 +1,22 @@
+name: mylinuxenv
+channels:
+  - conda-forge
+  - defaults
+  - nvidia
+dependencies:
+  - libgcc       
+  - libstdcxx-ng  
+  - openssl 
+  - python=3.9
+  - torchvision
+  - torchaudio
+  - pytorch-cuda=12.1
+  - pytorch
+  - pandas
+  - scipy
+  - numpy
+  - matplotlib
+  - scikit-learn
+  - transformers=4.49.0
+  - seaborn
+  - captum

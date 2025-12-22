@@ -15,9 +15,19 @@
    ```
 
 2. 创建并激活conda环境
+
+   对于Windows用户:
    ```bash
    # 根据提供的YAML文件创建环境
-   conda env create -f environment.yml
+   conda env create -f environment-mini.yml
+   
+   # 激活环境
+   conda activate myenv
+   ```
+   对于Linux用户:
+   ```bash
+   # 根据提供的YAML文件创建环境
+   conda env create -f environment-mini-linux.yml
    
    # 激活环境
    conda activate myenv
