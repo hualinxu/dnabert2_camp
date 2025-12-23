@@ -19,7 +19,7 @@
    For Windows users:
    ```bash
    # Create environment from the provided YAML file
-   conda env create -f environment.yml
+   conda env create -f environment-win.yml
    
    # Activate the environment
    conda activate myenv

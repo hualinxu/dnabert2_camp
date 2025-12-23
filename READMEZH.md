@@ -19,7 +19,7 @@
    对于Windows用户:
    ```bash
    # 根据提供的YAML文件创建环境
-   conda env create -f environment.yml
+   conda env create -f environment-win.yml
    
    # 激活环境
    conda activate myenv
