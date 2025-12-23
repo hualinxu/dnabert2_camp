@@ -4,6 +4,9 @@ channels:
   - defaults
   - nvidia
 dependencies:
+  - libgcc       
+  - libstdcxx-ng  
+  - openssl 
   - python=3.9
   - torchvision
   - torchaudio

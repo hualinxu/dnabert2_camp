@@ -19,7 +19,7 @@
    For Windows users:
    ```bash
    # Create environment from the provided YAML file
-   conda env create -f environment-mini.yml
+   conda env create -f environment.yml
    
    # Activate the environment
    conda activate myenv
@@ -28,7 +28,7 @@
    For Linux users:
    ```bash
    # Create environment from the provided YAML file
-   conda env create -f environment-mini-linux.yml
+   conda env create -f environment-linux.yml
    
    # Activate the environment
    conda activate myenv
