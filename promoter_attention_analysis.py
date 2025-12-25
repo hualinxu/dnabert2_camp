@@ -74,7 +74,7 @@ class CNNTransformerPromoter(nn.Module):
 
 # ================= Paths =================
 MODEL_DIR = "./SaveModel/best_cnn_dnabert2_model"
-CSV_PATH = "../Data/original_dataset/original_dataset(8720).csv"
+CSV_PATH = "./data/Ecoli_Promoter_8720_balanced.csv"
 
 # ================= Load =================
 model = CNNTransformerPromoter(MODEL_DIR).to(DEVICE)

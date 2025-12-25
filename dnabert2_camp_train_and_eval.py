@@ -21,7 +21,7 @@ from torch.optim import AdamW
 
 
 # 设置日志记录
-log_file = "./Log/mylog3.log"
+log_file = "./logs/mylog.log"
 os.makedirs(os.path.dirname(log_file), exist_ok=True)
 
 # 配置日志格式
@@ -239,7 +239,7 @@ def preprocess_data(data_file: str) -> Tuple[List[str], List[int], List[str]]:
     return sequences, labels, sigma_types
 
 # 主训练函数
-def train_and_evaluate(data_file: str = "../Data/original_dataset/original_dataset(8720).csv"):
+def train_and_evaluate(data_file: str = ""):
     logger.info(f"加载数据集: {data_file}")
     sequences, labels, sigma_types = preprocess_data(data_file)
     class_weights = compute_class_weights(labels)
@@ -283,13 +283,13 @@ def train_and_evaluate(data_file: str = "../Data/original_dataset/original_datas
         "lr_scheduler_type": "cosine",
         "seed": 42,
         "fp16": False,
-        "logging_dir": "./Log",
+        "logging_dir": "./logs",
         "greater_is_better": True,
         "max_grad_norm": 0.8
     }
     training_args = TrainingArguments(**explicit_args)
     optimizer = AdamW(model.parameters(), lr=explicit_args["learning_rate"])
-    with open("./Log/DNABERT-2_CNN_log.txt", "a") as f:
+    with open("./logs/DNABERT2_CAMP_log.txt", "a") as f:
         f.write(f"\n=== Training Started at {datetime.now().strftime('%Y-%m-%d %H:%M:%S')} ===\n")
         f.write(f"Data File: {data_file}\n")
         f.write("Training Arguments:\n")
@@ -369,7 +369,7 @@ def train_and_evaluate(data_file: str = "../Data/original_dataset/original_datas
         logger.info(f"{key} 每折值: {values}")
     logger.info(f"交叉验证加权平均指标: {avg_metrics}")
 
-    with open("./Log/DNABERT-2_CNN_log.txt", "a") as f:
+    with open("./logs/DNABERT2_CAMP_log.txt", "a") as f:
         f.write(f"\n=== Cross-Validation Summary at {datetime.now().strftime('%Y-%m-%d %H:%M:%S')} ===\n")
         f.write("Average Metrics Across Folds:\n")
         for key in fold_metrics[0].keys():
@@ -390,7 +390,7 @@ def train_and_evaluate(data_file: str = "../Data/original_dataset/original_datas
     logger.info(f"测试集样本量: {len(test_seqs)}, 正样本: {sum(test_labels)}, 负样本: {len(test_labels) - sum(test_labels)}")
     logger.info(f"测试集指标: {test_metrics}")
 
-    with open("./Log/DNABERT-2_CNN_log.txt", "a") as f:
+    with open("./logs/DNABERT2_CAMP_log.txt", "a") as f:
         f.write(f"\n=== Test Set Evaluation at {datetime.now().strftime('%Y-%m-%d %H:%M:%S')} ===\n")
         f.write(f"Test Set Size: {len(test_seqs)}, Positive: {sum(test_labels)}, Negative: {len(test_labels) - sum(test_labels)}\n")
         f.write("Test Metrics:\n")
@@ -421,9 +421,79 @@ def predict_promoter(sequence: str, model, tokenizer) -> Tuple[float, bool]:
         promoter_prob = probs[0][1].item()
         is_promoter = promoter_prob > 0.5
     return promoter_prob, is_promoter
+def batch_predict_from_csv(
+    csv_path: str,
+    model,
+    tokenizer,
+    output_excel: str,
+    sequence_col: str = "Sequence",
+    threshold: float = 0.5
+):
+    """
+    对 CSV 中的多条启动子序列进行预测，并保存为 Excel
+    """
+    logger.info(f"加载待预测数据: {csv_path}")
+    df = pd.read_csv(csv_path)
+
+    if sequence_col not in df.columns:
+        raise ValueError(f"CSV 中未找到序列列: {sequence_col}")
+
+    model.eval()
+    results = []
+
+    with torch.no_grad():
+        for idx, seq in enumerate(df[sequence_col]):
+            seq = str(seq).upper().strip()
+
+            if not all(base in "ATCG" for base in seq) or len(seq) != 81:
+                logger.warning(f"第 {idx} 条序列无效，已跳过")
+                results.append({
+                    "Sequence": seq,
+                    "Promoter_Prob": None,
+                    "Prediction": "Invalid"
+                })
+                continue
+
+            seq_6mer = " ".join(seq[i:i + 6] for i in range(0, len(seq) - 5))
+            encoding = tokenizer(
+                seq_6mer,
+                return_tensors="pt",
+                padding="max_length",
+                truncation=True,
+                max_length=128,
+                return_token_type_ids=False
+            )
+            encoding = {k: v.to(device) for k, v in encoding.items()}
+
+            outputs = model(**encoding)
+            probs = torch.softmax(outputs.logits, dim=-1)
+            promoter_prob = probs[0, 1].item()
+            prediction = 1 if promoter_prob >= threshold else 0
+
+            results.append({
+                "Sequence": seq,
+                "Promoter_Prob": promoter_prob,
+                "Prediction": prediction
+            })
+
+    result_df = pd.DataFrame(results)
+    result_df.to_excel(output_excel, index=False)
+
+    logger.info(f"预测完成，共 {len(result_df)} 条序列")
+    logger.info(f"结果已保存至: {output_excel}")
+
+
 
 if __name__ == "__main__":
-    model, tokenizer = train_and_evaluate(data_file="../Data/original_dataset/original_dataset(8720).csv")
-    test_sequence = "TCGCACGGGTGGATAAGCGTTTACAGTTTTCGCAAGCTCGTAAAAGCAGTACAGTGCACCGTAAGAAAATTACAAGTATAC"
-    prob, is_promoter = predict_promoter(test_sequence, model, tokenizer)
-    logger.info(f"测试序列预测: 启动子概率 = {prob:.4f}, 是否为启动子 = {is_promoter}")
+    model, tokenizer = train_and_evaluate(data_file="./data/Ecoli_Promoter_8720_balanced.csv")
+    batch_predict_from_csv(
+        csv_path="./data/Ecoli_Promoter_256_independent_test.csv",
+        model=model,
+        tokenizer=tokenizer,
+        output_excel="./data/Ecoli_Promoter_256_prediction.xlsx",
+        sequence_col="Sequence",
+        threshold=0.5
+    )
+    # test_sequence = "TCGCACGGGTGGATAAGCGTTTACAGTTTTCGCAAGCTCGTAAAAGCAGTACAGTGCACCGTAAGAAAATTACAAGTATAC"
+    # prob, is_promoter = predict_promoter(test_sequence, model, tokenizer)
+    # logger.info(f"测试序列预测: 启动子概率 = {prob:.4f}, 是否为启动子 = {is_promoter}")

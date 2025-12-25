@@ -1,4 +1,4 @@
-# DNABERT2-CMAP
+# DNABERT2-CAMP
 
 ## Environment Setup
 
@@ -42,42 +42,36 @@
 ## Code Architecture
 
 ### Project Directory Structure and File Descriptions
-- `data/independent_test.csv`: Independent test dataset, used for model validation
-- `data/original_dataset(8720).csv`: Original dataset containing 8720 entries, used as base data for model training
-- `src/model/.gitattributes`: Git attributes configuration file, used to define Git's handling rules for files
-- `src/model/bert_layers.py`: Code for defining the layer structure of the BERT model, including the implementation of core network layers
-- `src/model/bert_padding.py`: Code for handling padding logic of BERT model inputs
-- `src/model/config.json`: Core configuration file for the model, storing key information such as model structure and hyperparameters
-- `src/model/configuration_bert.py`: Code for defining the configuration class of the BERT model, used to load and manage model configurations
-- `src/model/flash_attn_triton.py`: Code for Flash Attention (efficient attention mechanism) implemented based on Triton
-- `src/model/generation_config.json`: Configuration file related to model generation tasks, defining generation parameters
-- `src/model/LICENSE.txt`: Project license file, explaining open-source license terms
-- `src/model/pytorch_model.bin`: Model weight file in PyTorch format, storing trained model parameters
-- `src/model/README.md`: Project documentation, containing information such as project introduction and usage methods
-- `src/model/tokenizer.json`: Core configuration file for the Tokenizer, containing information such as the vocabulary
-- `src/model/tokenizer_config.json`: Configuration parameter file for the Tokenizer, defining tokenization rules, etc.
-- `src/model/DNABERT-2_CNN_test.py`: Test script for the DNABERT-2 combined with CNN model
-- `src/model/DNABERT-2_CNN_train_and_eval3.py`: Training and evaluation script for the DNABERT-2 combined with CNN model (version 3)
-- `src/model/my_attention3.py`: Implementation code for custom attention mechanism (version 3)
+- `data/Ecoli_Promoter_256_independent_test.csv`: Independent test dataset, used for model validation
+- `data/Ecoli_Promoter_8720_balanced.csv`:The dataset containing 8720 entries, used as base data for model training
+- `model/.gitattributes`: Git attributes configuration file, used to define Git's handling rules for files
+- `model/bert_layers.py`: Code for defining the layer structure of the BERT model, including the implementation of core network layers
+- `model/bert_padding.py`: Code for handling padding logic of BERT model inputs
+- `model/config.json`: Core configuration file for the model, storing key information such as model structure and hyperparameters
+- `model/configuration_bert.py`: Code for defining the configuration class of the BERT model, used to load and manage model configurations
+- `model/flash_attn_triton.py`: Code for Flash Attention (efficient attention mechanism) implemented based on Triton
+- `model/generation_config.json`: Configuration file related to model generation tasks, defining generation parameters
+- `model/LICENSE.txt`: Project license file, explaining open-source license terms
+- `model/pytorch_model.bin`: Model weight file in PyTorch format, storing trained model parameters
+- `model/README.md`: Project documentation, containing information such as project introduction and usage methods
+- `model/tokenizer.json`: Core configuration file for the Tokenizer, containing information such as the vocabulary
+- `model/tokenizer_config.json`: Configuration parameter file for the Tokenizer, defining tokenization rules, etc.
+- `dnabert2_camp_train_and_eval.py`: Training and evaluation script for the DNABERT2-CAMP model 
+- `promoter_attention_analysis.py`: Attention analysis script for visualizing attention weights and extracting significant motifs 
 
 
 ## Usage
 
-### Training the Model
+### Training and Testing the Model
 
 ```bash
-python DNABERT-2_CNN_train_and_eval3.py
+python dnabert2_camp_train_and_eval.py
 ```
 
-### Testing the Model
-
-```bash
-python DNABERT-2_CNN_test.py
-```
 ### Analyzing Attention Patterns
 
 ```bash
-python my_attention3.py
+python promoter_attention_analysis.py
 ```
 
 ### Environment Requirements

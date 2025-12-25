@@ -41,23 +41,22 @@
 ## 代码架构
 
 ### 项目目录结构和文件说明
-- `data/independent_test.csv`：独立测试数据集，用于模型验证
-- `data/original_dataset(8720).csv`：包含8720条记录的原始数据集，用作模型训练的基础数据
-- `src/model/.gitattributes`：Git属性配置文件，用于定义Git对文件的处理规则
-- `src/model/bert_layers.py`：用于定义BERT模型的层结构的代码，包括核心网络层的实现
-- `src/model/bert_padding.py`：用于处理BERT模型输入的填充逻辑的代码
-- `src/model/config.json`：模型的核心配置文件，存储模型结构和超参数等关键信息
-- `src/model/configuration_bert.py`：用于定义BERT模型的配置类的代码，用于加载和管理模型配置
-- `src/model/flash_attn_triton.py`：基于Triton实现的Flash Attention（高效注意力机制）的代码
-- `src/model/generation_config.json`：与模型生成任务相关的配置文件，定义生成参数
-- `src/model/LICENSE.txt`：项目许可证文件，说明开源许可条款
-- `src/model/pytorch_model.bin`：PyTorch格式的模型权重文件，存储训练好的模型参数
-- `src/model/README.md`：项目文档，包含项目介绍和使用方法等信息
-- `src/model/tokenizer.json`：Tokenizer的核心配置文件，包含词汇表等信息
-- `src/model/tokenizer_config.json`：Tokenizer的配置参数文件，定义分词规则等
-- `src/model/DNABERT-2_CNN_test.py`：DNABERT-2结合CNN模型的测试脚本
-- `src/model/DNABERT-2_CNN_train_and_eval3.py`：DNABERT-2结合CNN模型的训练和评估脚本（版本3）
-- `src/model/my_attention3.py`：自定义注意力机制的实现代码（版本3）
+- `data/Ecoli_Promoter_256_independent_test.csv`：独立测试数据集，用于模型验证
+- `data/Ecoli_Promoter_8720_balanced.csv`：包含8720条记录的数据集，用作模型训练的基础数据
+- `model/.gitattributes`：Git属性配置文件，用于定义Git对文件的处理规则
+- `model/bert_layers.py`：用于定义BERT模型的层结构的代码，包括核心网络层的实现
+- `model/bert_padding.py`：用于处理BERT模型输入的填充逻辑的代码
+- `model/config.json`：模型的核心配置文件，存储模型结构和超参数等关键信息
+- `model/configuration_bert.py`：用于定义BERT模型的配置类的代码，用于加载和管理模型配置
+- `model/flash_attn_triton.py`：基于Triton实现的Flash Attention（高效注意力机制）的代码
+- `model/generation_config.json`：与模型生成任务相关的配置文件，定义生成参数
+- `model/LICENSE.txt`：项目许可证文件，说明开源许可条款
+- `model/pytorch_model.bin`：PyTorch格式的模型权重文件，存储训练好的模型参数
+- `model/README.md`：项目文档，包含项目介绍和使用方法等信息
+- `model/tokenizer.json`：Tokenizer的核心配置文件，包含词汇表等信息
+- `model/tokenizer_config.json`：Tokenizer的配置参数文件，定义分词规则等
+- `dnabert2_camp_train_and_eval.py`：DNABERT2-CAMP 模型的训练和评估脚本
+- `promoter_attention_analysis.py`：用于可视化注意力权重和提取显著模体的注意力分析脚本
 
 
 ## 使用方法
@@ -65,19 +64,13 @@
 ### 训练模型
 
 ```bash
-python DNABERT-2_CNN_train_and_eval3.py
-```
-
-### 测试模型
-
-```bash
-python DNABERT-2_CNN_test.py
+python `dnabert2_camp_train_and_eval.py`
 ```
 
 ### 分析注意力模式
 
 ```bash
-python my_attention3.py
+python `promoter_attention_analysis.py`
 ```
 
 ### 环境要求
