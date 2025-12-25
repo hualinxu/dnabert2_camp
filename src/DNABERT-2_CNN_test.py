@@ -126,7 +126,7 @@ def predict_batch(sequences: List[str], model, tokenizer, max_length: int = 128)
 # 主函数
 def main():
     parser = argparse.ArgumentParser(description="使用 DNABERT-2 模型进行启动子预测")
-    parser.add_argument("--model_dir", default="./best_cnn_dnabert2_model8", help="模型保存目录")
+    parser.add_argument("--model_dir", default="./best_cnn_dnabert2_model", help="模型保存目录")
     parser.add_argument("--input_file", default=None, help="输入 CSV 文件路径（包含 Sequence 列）")
     parser.add_argument("--sequence", default=None, help="单条 DNA 序列")
     parser.add_argument("--output_file", default="predictions.csv", help="预测结果输出文件")

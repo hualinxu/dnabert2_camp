@@ -21,7 +21,7 @@ from torch.optim import AdamW
 
 
 # 设置日志记录
-log_file = "./logs/mylog3.log"
+log_file = "./Log/mylog3.log"
 os.makedirs(os.path.dirname(log_file), exist_ok=True)
 
 # 配置日志格式
@@ -239,7 +239,7 @@ def preprocess_data(data_file: str) -> Tuple[List[str], List[int], List[str]]:
     return sequences, labels, sigma_types
 
 # 主训练函数
-def train_and_evaluate(data_file: str = "../Data/original_dataset/original_dataset(8220).csv"):
+def train_and_evaluate(data_file: str = "../Data/original_dataset/original_dataset(8720).csv"):
     logger.info(f"加载数据集: {data_file}")
     sequences, labels, sigma_types = preprocess_data(data_file)
     class_weights = compute_class_weights(labels)
@@ -283,7 +283,7 @@ def train_and_evaluate(data_file: str = "../Data/original_dataset/original_datas
         "lr_scheduler_type": "cosine",
         "seed": 42,
         "fp16": False,
-        "logging_dir": "./logs",
+        "logging_dir": "./Log",
         "greater_is_better": True,
         "max_grad_norm": 0.8
     }

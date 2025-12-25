@@ -20,3 +20,5 @@ dependencies:
   - transformers=4.49.0
   - seaborn
   - captum
+  - einops
+  - accelerate
