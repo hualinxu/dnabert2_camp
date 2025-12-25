@@ -1,4 +1,4 @@
-# DNABERT2-CMAP
+# DNABERT2-CAMP
 
 ## 环境设置
 
