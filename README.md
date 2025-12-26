@@ -71,7 +71,7 @@ python dnabert2_camp_train_and_eval.py
 ### Analyzing Attention Patterns
 
 ```bash
-python `dnabert2_camp_attention_viz.py
+python dnabert2_camp_attention_viz.py
 ```
 
 ### Environment Requirements

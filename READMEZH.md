@@ -64,13 +64,13 @@
 ### 训练模型
 
 ```bash
-python `dnabert2_camp_train_and_eval.py`
+python dnabert2_camp_train_and_eval.py
 ```
 
 ### 分析注意力模式
 
 ```bash
-python `dnabert2_camp_attention_viz.py`
+python dnabert2_camp_attention_viz.py
 ```
 
 ### 环境要求
