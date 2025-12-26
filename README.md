@@ -57,7 +57,7 @@
 - `model/tokenizer.json`: Core configuration file for the Tokenizer, containing information such as the vocabulary
 - `model/tokenizer_config.json`: Configuration parameter file for the Tokenizer, defining tokenization rules, etc.
 - `dnabert2_camp_train_and_eval.py`: Training and evaluation script for the DNABERT2-CAMP model 
-- `promoter_attention_analysis.py`: Attention analysis script for visualizing attention weights and extracting significant motifs 
+- `dnabert2_camp_attention_viz.py`: Script for visualizing attention weights from the DNABERT2-CAMP and extracting/analyzing significant sequence motifs associated with high CNN activations.
 
 
 ## Usage
@@ -71,7 +71,7 @@ python dnabert2_camp_train_and_eval.py
 ### Analyzing Attention Patterns
 
 ```bash
-python promoter_attention_analysis.py
+python `dnabert2_camp_attention_viz.py
 ```
 
 ### Environment Requirements

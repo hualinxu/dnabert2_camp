@@ -56,7 +56,7 @@
 - `model/tokenizer.json`：Tokenizer的核心配置文件，包含词汇表等信息
 - `model/tokenizer_config.json`：Tokenizer的配置参数文件，定义分词规则等
 - `dnabert2_camp_train_and_eval.py`：DNABERT2-CAMP 模型的训练和评估脚本
-- `promoter_attention_analysis.py`：用于可视化注意力权重和提取显著模体的注意力分析脚本
+- `dnabert2_camp_attention_viz.py`：用于可视化DNABERT2-CAMP注意力权重并提取/分析高CNN激活相关显著序列基序的脚本。
 
 
 ## 使用方法
@@ -70,7 +70,7 @@ python `dnabert2_camp_train_and_eval.py`
 ### 分析注意力模式
 
 ```bash
-python `promoter_attention_analysis.py`
+python `dnabert2_camp_attention_viz.py`
 ```
 
 ### 环境要求
